@@ -68,7 +68,7 @@ func canvas(width int, height int) *ui.Canvas{
   c.SetRect(0, 0, 50, 50)
 
   // Diagonal
-  c.SetLine(image.Pt(0, 0), image.Pt(width,height), ui.ColorWhite)
+  // c.SetLine(image.Pt(0, 0), image.Pt(width,height), ui.ColorWhite)
 
   // Bottom
   c.SetLine(image.Pt(0, height), image.Pt(width,height), ui.ColorRed)
@@ -81,8 +81,13 @@ func canvas(width int, height int) *ui.Canvas{
 
   // Right
   c.SetLine(image.Pt(width, 0), image.Pt(width-1,height), ui.ColorYellow)
+
+  // Point
+  c.SetLine(image.Pt(10,10), image.Pt(15,10), ui.ColorWhite)
+  c.SetLine(image.Pt(12,7), image.Pt(13,13), ui.ColorWhite)
   
 
   
   return c
 }
+
