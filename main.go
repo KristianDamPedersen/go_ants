@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-  rendering.TestRendering()
+  rendering.Render()
 }
