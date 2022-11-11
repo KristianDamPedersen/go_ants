@@ -19,8 +19,16 @@ func Render() {
   defer ui.Close()
 
   // Elements
+  // Title card
   title := titleCard() 
-  ui.Render(title)
+
+  // Description
+  description := description()
+  
+  // Visualization
+
+  // Render 
+  ui.Render(title, description)
 
   // Quits if user presses a key
   uiEvents := ui.PollEvents()
@@ -37,6 +45,15 @@ func titleCard() *widgets.Paragraph{
 
   p.Text = "[GO ACO!](fg:yellow)"
 
-  p.SetRect(0,0,50,3)
+  p.SetRect(0,0,20,3)
+  return p
+}
+
+func description() *widgets.Paragraph{
+  p := widgets.NewParagraph()
+  
+  p.Text = "[Here is my description and it is rad AF](fg:white)"
+
+  p.SetRect(0,3,20,80)
   return p
 }
