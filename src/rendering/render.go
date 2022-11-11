@@ -4,6 +4,7 @@ import (
   "fmt"
   ui "github.com/gizak/termui/v3"
   "github.com/gizak/termui/v3/widgets"
+  "image"
 )
 
 func TestRendering() {
@@ -20,15 +21,16 @@ func Render() {
 
   // Elements
   // Title card
-  title := titleCard() 
+  //title := titleCard() 
 
   // Description
-  description := description()
+  //description := description()
   
   // Visualization
+  canvas := canvas()
 
   // Render 
-  ui.Render(title, description)
+  ui.Render(canvas)
 
   // Quits if user presses a key
   uiEvents := ui.PollEvents()
@@ -40,6 +42,8 @@ func Render() {
   }
 }
 
+
+// TITLE CARD
 func titleCard() *widgets.Paragraph{
   p := widgets.NewParagraph()
 
@@ -49,6 +53,7 @@ func titleCard() *widgets.Paragraph{
   return p
 }
 
+// DESCRIPTION
 func description() *widgets.Paragraph{
   p := widgets.NewParagraph()
   
@@ -56,4 +61,29 @@ func description() *widgets.Paragraph{
 
   p.SetRect(0,3,20,80)
   return p
+}
+
+// CANVAS
+func canvas() *ui.Canvas{
+  c := ui.NewCanvas()
+  c.SetRect(0, 0, 50, 50)
+
+  // Diagonal
+  c.SetLine(image.Pt(0, 0), image.Pt(50,50), ui.ColorWhite)
+
+  // Bottom
+  c.SetLine(image.Pt(0, 50), image.Pt(50,50), ui.ColorRed)
+
+  // Top
+  c.SetLine(image.Pt(0, 0), image.Pt(50,0), ui.ColorBlue)
+  
+  // Left
+  c.SetLine(image.Pt(0, 0), image.Pt(1,50), ui.ColorYellow)
+
+  // Right
+  c.SetLine(image.Pt(50, 0), image.Pt(49,50), ui.ColorYellow)
+  
+
+  
+  return c
 }
