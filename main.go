@@ -1,9 +1,9 @@
 package main
 
 import (
-  "fmt"
+  "go_ants/src/rendering"
 )
 
 func main() {
-  fmt.Println("Hello there!")
+  rendering.TestRendering()
 }
