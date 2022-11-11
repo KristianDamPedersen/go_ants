@@ -1,18 +1,16 @@
 package rendering
 
 import (
-  "fmt"
   ui "github.com/gizak/termui/v3"
   "github.com/gizak/termui/v3/widgets"
   "image"
 )
 
-func TestRendering() {
-  fmt.Println("I am from rendering package")
-}
 
 func Render() {
-
+  // Variables
+  dh := 100
+  dw := 100
   // Check wether the UI can be initialized or not
   if err := ui.Init(); err != nil {
     panic(err)
@@ -27,7 +25,7 @@ func Render() {
   //description := description()
   
   // Visualization
-  canvas := canvas()
+  canvas := canvas(dw, dh)
 
   // Render 
   ui.Render(canvas)
@@ -64,24 +62,25 @@ func description() *widgets.Paragraph{
 }
 
 // CANVAS
-func canvas() *ui.Canvas{
+
+func canvas(width int, height int) *ui.Canvas{
   c := ui.NewCanvas()
   c.SetRect(0, 0, 50, 50)
 
   // Diagonal
-  c.SetLine(image.Pt(0, 0), image.Pt(50,50), ui.ColorWhite)
+  c.SetLine(image.Pt(0, 0), image.Pt(width,height), ui.ColorWhite)
 
   // Bottom
-  c.SetLine(image.Pt(0, 50), image.Pt(50,50), ui.ColorRed)
+  c.SetLine(image.Pt(0, height), image.Pt(width,height), ui.ColorRed)
 
   // Top
-  c.SetLine(image.Pt(0, 0), image.Pt(50,0), ui.ColorBlue)
+  c.SetLine(image.Pt(0, 0), image.Pt(width,0), ui.ColorBlue)
   
   // Left
-  c.SetLine(image.Pt(0, 0), image.Pt(1,50), ui.ColorYellow)
+  c.SetLine(image.Pt(0, 0), image.Pt(1,height), ui.ColorYellow)
 
   // Right
-  c.SetLine(image.Pt(50, 0), image.Pt(49,50), ui.ColorYellow)
+  c.SetLine(image.Pt(width, 0), image.Pt(width-1,height), ui.ColorYellow)
   
 
   
