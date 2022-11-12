@@ -67,6 +67,17 @@ func canvas(width int, height int) *ui.Canvas{
   c := ui.NewCanvas()
   c.SetRect(0, 0, 50, 50)
 
+  pointList := make([][]int, 3)
+  
+  for i := 0; i < 3; i++ {
+    pointList[i] = make([]int, 2)
+  }
+
+  pointList[0] = []int{10, 10}
+  pointList[1] = []int{20,20}
+  pointList[2] = []int{30, 30}
+
+
   // Diagonal
   // c.SetLine(image.Pt(0, 0), image.Pt(width,height), ui.ColorWhite)
 
@@ -82,12 +93,25 @@ func canvas(width int, height int) *ui.Canvas{
   // Right
   c.SetLine(image.Pt(width, 0), image.Pt(width-1,height), ui.ColorYellow)
 
+  // Lines
+  for i := 0; i < len(pointList)-1; i++ {
+    p1 := pointList[i]
+    p2 := pointList[i+1]
+    x1, y1 := p1[0], p1[1]
+    x2, y2 := p2[0], p2[1]
+    c.SetLine(image.Pt(x1, y1), image.Pt(x2, y2), ui.ColorGreen)
+  }
+  
   // Point
-  c.SetLine(image.Pt(10,10), image.Pt(15,10), ui.ColorWhite)
-  c.SetLine(image.Pt(12,7), image.Pt(13,13), ui.ColorWhite)
-  
+  for i := 0; i < len(pointList); i++ {
+    point := pointList[i]
+    x,y := point[0], point[1]
+    c.SetLine(image.Pt(x, y), image.Pt(x+2, y), ui.ColorWhite)
+    c.SetLine(image.Pt(x, y+1), image.Pt(x+2, y+1), ui.ColorWhite)
+  }
 
-  
   return c
 }
+
+// Sparkline
 
