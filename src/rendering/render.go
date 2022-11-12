@@ -73,8 +73,6 @@ func canvas(width int, height int, pl pointList) *ui.Canvas{
   c := ui.NewCanvas()
   c.SetRect(0, 0, 50, 50)
 
-  // Diagonal
-  // c.SetLine(image.Pt(0, 0), image.Pt(width,height), ui.ColorWhite)
 
   // Bottom
   c.SetLine(image.Pt(0, height), image.Pt(width,height), ui.ColorRed)
