@@ -6,11 +6,13 @@ import (
   "image"
 )
 
+type pointList [][]int
+
 
 func Render() {
   // Variables
-  dh := 100
-  dw := 100
+  dh := 100 // Valid drawing area: dh - 1  
+  dw := 100 // Valid drawing area: dw -1
   // Check wether the UI can be initialized or not
   if err := ui.Init(); err != nil {
     panic(err)
@@ -67,15 +69,18 @@ func canvas(width int, height int) *ui.Canvas{
   c := ui.NewCanvas()
   c.SetRect(0, 0, 50, 50)
 
-  pointList := make([][]int, 3)
+  pointList := make([][]int, 6)
   
   for i := 0; i < 3; i++ {
     pointList[i] = make([]int, 2)
   }
 
-  pointList[0] = []int{10, 10}
-  pointList[1] = []int{20,20}
-  pointList[2] = []int{30, 30}
+  pointList[0] = []int{0, 100}
+  pointList[1] = []int{100,0}
+  pointList[2] = []int{30, 100}
+  pointList[3] = []int{0, 0}
+  pointList[4] = []int{50,50}
+  pointList[5] = []int{50, 70}
 
 
   // Diagonal
@@ -106,12 +111,30 @@ func canvas(width int, height int) *ui.Canvas{
   for i := 0; i < len(pointList); i++ {
     point := pointList[i]
     x,y := point[0], point[1]
-    c.SetLine(image.Pt(x, y), image.Pt(x+2, y), ui.ColorWhite)
-    c.SetLine(image.Pt(x, y+1), image.Pt(x+2, y+1), ui.ColorWhite)
+    makePoint(x, y, width, height, c)
   }
 
   return c
 }
 
-// Sparkline
+// Make a point that fits within the valid drawing area.
+func makePoint(x int, y int, width int, height int, c *ui.Canvas) *ui.Canvas{
+  if x == width && y == height {
+    // Check if its the bottom right corner
+    c.SetLine(image.Pt(x, y), image.Pt(x-2, y), ui.ColorWhite)
+    c.SetLine(image.Pt(x, y-1), image.Pt(x-2, y-1), ui.ColorWhite)
+  } else if x == width {
+    // Check if its on the right
+    c.SetLine(image.Pt(x, y), image.Pt(x-2, y), ui.ColorWhite)
+    c.SetLine(image.Pt(x, y+1), image.Pt(x-2, y+1), ui.ColorWhite)
+  } else if y == height {
+    // Check if its on the bottom
+    c.SetLine(image.Pt(x, y), image.Pt(x+2, y), ui.ColorWhite)
+    c.SetLine(image.Pt(x, y-1), image.Pt(x+2, y-1), ui.ColorWhite)
+  } else {
+    c.SetLine(image.Pt(x, y), image.Pt(x+2, y), ui.ColorWhite)
+    c.SetLine(image.Pt(x, y+1), image.Pt(x+2, y+1), ui.ColorWhite)
+  }
+  return c
+}
 
