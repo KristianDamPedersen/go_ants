@@ -4,6 +4,8 @@ import (
   ui "github.com/gizak/termui/v3"
   "github.com/gizak/termui/v3/widgets"
   "image"
+  "math/rand"
+  "time"
 )
 
 type pointList [][]int
@@ -69,18 +71,8 @@ func canvas(width int, height int) *ui.Canvas{
   c := ui.NewCanvas()
   c.SetRect(0, 0, 50, 50)
 
-  pointList := make([][]int, 6)
-  
-  for i := 0; i < 3; i++ {
-    pointList[i] = make([]int, 2)
-  }
+  pl := generatePointList(5, width, height)
 
-  pointList[0] = []int{0, 100}
-  pointList[1] = []int{100,0}
-  pointList[2] = []int{30, 100}
-  pointList[3] = []int{0, 0}
-  pointList[4] = []int{50,50}
-  pointList[5] = []int{50, 70}
 
 
   // Diagonal
@@ -99,22 +91,43 @@ func canvas(width int, height int) *ui.Canvas{
   c.SetLine(image.Pt(width, 0), image.Pt(width-1,height), ui.ColorYellow)
 
   // Lines
-  for i := 0; i < len(pointList)-1; i++ {
-    p1 := pointList[i]
-    p2 := pointList[i+1]
+  for i := 0; i < len(pl)-1; i++ {
+    p1 := pl[i]
+    p2 := pl[i+1]
     x1, y1 := p1[0], p1[1]
     x2, y2 := p2[0], p2[1]
     c.SetLine(image.Pt(x1, y1), image.Pt(x2, y2), ui.ColorGreen)
   }
   
   // Point
-  for i := 0; i < len(pointList); i++ {
-    point := pointList[i]
+  for i := 0; i < len(pl); i++ {
+    point := pl[i]
     x,y := point[0], point[1]
     makePoint(x, y, width, height, c)
   }
 
   return c
+}
+
+// Generate a random pointlist 
+func generatePointList(n int, width int, height int) pointList {
+  s := rand.NewSource(time.Now().UnixNano())
+  r := rand.New(s)
+
+  var x int
+  var y int
+  
+  pl := make(pointList, n)
+  for i := 0; i < n; i++ {
+    // We add 1 to h and w due to the possiblity of getting 0 (we subtract one after)
+    randX := r.Intn(width) // Generatea a random int between [0,width+1)
+    randY := r.Intn(height)// Generates a random int between [0,height+1)
+    x = randX
+    y = randY
+
+    pl[i] = []int{x,y}
+  }
+  return pl
 }
 
 // Make a point that fits within the valid drawing area.
