@@ -15,6 +15,8 @@ func Render() {
   // Variables
   dh := 100 // Valid drawing area: dh - 1  
   dw := 100 // Valid drawing area: dw -1
+  pl := generatePointList(20, dw, dh)
+
   // Check wether the UI can be initialized or not
   if err := ui.Init(); err != nil {
     panic(err)
@@ -29,7 +31,7 @@ func Render() {
   //description := description()
   
   // Visualization
-  canvas := canvas(dw, dh)
+  canvas := canvas(dw, dh, pl)
 
   // Render 
   ui.Render(canvas)
@@ -67,13 +69,9 @@ func description() *widgets.Paragraph{
 
 // CANVAS
 
-func canvas(width int, height int) *ui.Canvas{
+func canvas(width int, height int, pl pointList) *ui.Canvas{
   c := ui.NewCanvas()
   c.SetRect(0, 0, 50, 50)
-
-  pl := generatePointList(5, width, height)
-
-
 
   // Diagonal
   // c.SetLine(image.Pt(0, 0), image.Pt(width,height), ui.ColorWhite)
@@ -103,6 +101,7 @@ func canvas(width int, height int) *ui.Canvas{
   for i := 0; i < len(pl); i++ {
     point := pl[i]
     x,y := point[0], point[1]
+
     makePoint(x, y, width, height, c)
   }
 
